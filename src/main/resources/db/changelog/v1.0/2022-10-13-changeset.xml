@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+
+	<changeSet author="andrewsha"
+		id="addColumn-users.expired">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="users" />
+			<not>
+				<columnExists tableName="users" columnName="expired" />
+			</not>
+		</preConditions>
+		<addColumn catalogName="DatabaseChangelog"
+			schemaName="public" tableName="users">
+			<column afterColumn="dob" name="expired" type="date"></column>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>

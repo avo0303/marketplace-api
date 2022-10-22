@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet author="andrewsha"
+		id="products-addColumn-attributes">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="products" />
+			<not>
+				<columnExists tableName="products"
+					columnName="attributes" />
+			</not>
+		</preConditions>
+		<addColumn catalogName="" schemaName="public"
+			tableName="products">
+			<column afterColumn="id" name="attributes" type="jsonb">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>

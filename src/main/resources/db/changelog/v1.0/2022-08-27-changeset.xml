@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet author="andrewsha" id="dropColumn-stores.owner_id">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="stores" />
+			<columnExists tableName="stores" columnName="owner_id" />
+		</preConditions>
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="owner_id" schemaName="public" tableName="stores">
+		</dropColumn>
+	</changeSet>
+
+	<changeSet id="create-table-stores-sellers"
+		author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="stores-sellers" />
+				<foreignKeyConstraintExists foreignKeyName="fk_stores_sellers-stores"/>
+				<foreignKeyConstraintExists foreignKeyName="fk_stores_sellers-sellers"/>
+			</not>
+		</preConditions>
+		<createTable tableName="stores_sellers">
+			<column name="store_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="seller_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="seller_role" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="store_id" baseTableCatalogName=""
+			baseTableName="stores_sellers" baseTableSchemaName="public"
+			constraintName="fk_stores_sellers-stores" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableCatalogName=""
+			referencedTableName="stores" referencedTableSchemaName="public"
+			validate="true" />
+		<addForeignKeyConstraint
+			baseColumnNames="seller_id" baseTableCatalogName=""
+			baseTableName="stores_sellers" baseTableSchemaName="public"
+			constraintName="fk_stores_sellers-sellers" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableCatalogName=""
+			referencedTableName="users" referencedTableSchemaName="public"
+			validate="true" />
+	</changeSet>
+
+</databaseChangeLog>

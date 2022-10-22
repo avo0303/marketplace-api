@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet id="add-unique-constraint_permissions"
+		author="andrewsha">
+		<addUniqueConstraint columnNames="name"
+			tableName="permissions" schemaName="public"></addUniqueConstraint>
+	</changeSet>
+
+	<changeSet id="drop-column-scope_object" author="andrewsha">
+		<preConditions>
+			<columnExists tableName="permission_sets"
+				columnName="scope_object" />
+		</preConditions>
+		<dropColumn tableName="permission_sets"
+			columnName="scope_object" schemaName="public"></dropColumn>
+	</changeSet>
+
+	<changeSet id="rename-column-scope_type" author="andrewsha">
+		<preConditions>
+			<columnExists tableName="permission_sets"
+				columnName="scope_type" />
+		</preConditions>
+		<renameColumn tableName="permission_sets"
+			oldColumnName="scope_type" newColumnName="scope" />
+	</changeSet>
+
+</databaseChangeLog>

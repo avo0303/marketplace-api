@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet author="andrewsha"
+		id="products-addColumn-category">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="products" />
+			<not>
+				<columnExists tableName="products"
+					columnName="category" />
+			</not>
+		</preConditions>
+		<addColumn catalogName="" schemaName="public"
+			tableName="products">
+			<column afterColumn="id" name="category" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet author="andrewsha"
+		id="dropColumn-products.images_dir">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="products" />
+			<columnExists tableName="products"
+				columnName="images_dir" />
+		</preConditions>
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="images_dir" schemaName="public" tableName="products">
+		</dropColumn>
+	</changeSet>
+
+	<changeSet id="init-table-product_images" author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="product_images" />
+			</not>
+		</preConditions>
+		<createTable tableName="product_images">
+			<column name="id" type="uuid">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="product_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="image_url" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="product_id" baseTableCatalogName=""
+			baseTableName="product_images" baseTableSchemaName="public"
+			constraintName="fk_product_images_products" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableCatalogName=""
+			referencedTableName="products" referencedTableSchemaName="public"
+			validate="true" />
+	</changeSet>
+
+</databaseChangeLog>

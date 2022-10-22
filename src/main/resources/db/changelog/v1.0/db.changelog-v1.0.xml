@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+	
+	<include file="db/changelog/v1.0/2022-07-03-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-07-06-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-07-24-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-07-26-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-08-04-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-08-05-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-08-10-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-08-11-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-08-27-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-08-28-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-09-08-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-09-12-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-09-13-changeset.xml"/>
+	<include file="db/changelog/v1.0/2022-10-13-changeset.xml"/>
+
+</databaseChangeLog>

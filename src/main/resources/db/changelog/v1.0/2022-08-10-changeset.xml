@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet author="andrewsha"
+		id="addUniqueConstraints-users.email-users.phone_number">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="users" />
+			<not>
+				<uniqueConstraintExists tableName="users" constraintName="email-unique"/>
+				<uniqueConstraintExists tableName="users" constraintName="phone_number-unique"/>
+			</not>
+		</preConditions>
+		<addUniqueConstraint catalogName=""
+			columnNames="email" constraintName="email-unique"
+			deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="users" validate="true" />
+		<addUniqueConstraint catalogName=""
+			columnNames="phone_number" constraintName="phone_number-unique"
+			deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="users" validate="true" />
+	</changeSet>
+
+</databaseChangeLog>

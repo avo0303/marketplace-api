@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet id="init-table-roles" author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="roles" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="roles">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+	</changeSet>
+
+	<changeSet id="init-table-user_roles" author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="user_roles" />
+			</not>
+		</preConditions>
+
+		<createTable tableName="user_roles">
+			<column name="user_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="role_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint
+			baseColumnNames="user_id" baseTableCatalogName=""
+			baseTableName="user_roles" baseTableSchemaName="public"
+			constraintName="fk_user_roles-users" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableCatalogName=""
+			referencedTableName="users" referencedTableSchemaName="public"
+			validate="true" />
+
+		<addForeignKeyConstraint
+			baseColumnNames="role_id" baseTableCatalogName=""
+			baseTableName="user_roles" baseTableSchemaName="public"
+			constraintName="fk_user_roles-roles" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableCatalogName=""
+			referencedTableName="roles" referencedTableSchemaName="public"
+			validate="true" />
+	</changeSet>
+
+	<changeSet author="andrewsha"
+		id="addColumn-users.profile_icon">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="users" />
+			<not>
+				<columnExists tableName="users"
+					columnName="profile_icon" />
+			</not>
+		</preConditions>
+		<addColumn catalogName="DatabaseChangelog"
+			schemaName="public" tableName="users">
+			<column afterColumn="name" name="profile_icon"
+				type="varchar(255)"></column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet author="andrewsha"
+		id="dropColumns-users:telegram_chat_id|username">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="users" />
+			<columnExists tableName="users"
+				columnName="telegram_chat_id" />
+			<columnExists tableName="users" columnName="username" />
+		</preConditions>
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="telegram_chat_id" schemaName="public" tableName="users">
+		</dropColumn>
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="username" schemaName="public" tableName="users">
+		</dropColumn>
+	</changeSet>
+
+	<changeSet author="andrewsha" id="users-addColumn-name">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="users" />
+			<not>
+				<columnExists tableName="users" columnName="name" />
+			</not>
+		</preConditions>
+		<addColumn catalogName="DatabaseChangelog"
+			schemaName="public" tableName="users">
+			<column afterColumn="id" name="name" type="varchar(255)"></column>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+	<changeSet id="create-table-user_permissions"
+		author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="user_permissions" />
+			</not>
+		</preConditions>
+		<createTable tableName="user_permissions">
+			<column name="id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="scope_type" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="scope_object" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="rename-table-user_permissions"
+		author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="user_permissions" />
+		</preConditions>
+		<renameTable newTableName="permission_sets"
+			oldTableName="user_permissions" schemaName="public" />
+	</changeSet>
+
+	<changeSet id="create-table-permission_sets_permissions"
+		author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="permission_sets_permissions" />
+			</not>
+		</preConditions>
+		<createTable tableName="permission_sets_permissions">
+			<column name="permission_set_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="permission_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="create-table-user_permissions_1"
+		author="andrewsha">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="user_permissions" />
+			</not>
+		</preConditions>
+		<createTable tableName="user_permissions">
+			<column name="permission_set_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="uuid">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+</databaseChangeLog>
