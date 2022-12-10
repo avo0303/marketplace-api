@@ -10,8 +10,7 @@
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
 
-	<changeSet author="andrewsha"
-		id="addColumn-users.expired">
+	<changeSet author="andrewsha" id="addColumn-users.expired">
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="users" />
 			<not>

@@ -14,14 +14,16 @@
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="users" />
 			<not>
-				<uniqueConstraintExists tableName="users" constraintName="email-unique"/>
-				<uniqueConstraintExists tableName="users" constraintName="phone_number-unique"/>
+				<uniqueConstraintExists tableName="users"
+					constraintName="email-unique" />
+				<uniqueConstraintExists tableName="users"
+					constraintName="phone_number-unique" />
 			</not>
 		</preConditions>
 		<addUniqueConstraint catalogName=""
-			columnNames="email" constraintName="email-unique"
-			deferrable="true" disabled="true" initiallyDeferred="true"
-			schemaName="public" tableName="users" validate="true" />
+			columnNames="email" constraintName="email-unique" deferrable="true"
+			disabled="true" initiallyDeferred="true" schemaName="public"
+			tableName="users" validate="true" />
 		<addUniqueConstraint catalogName=""
 			columnNames="phone_number" constraintName="phone_number-unique"
 			deferrable="true" disabled="true" initiallyDeferred="true"

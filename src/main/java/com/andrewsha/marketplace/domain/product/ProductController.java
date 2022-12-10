@@ -27,49 +27,49 @@ import com.andrewsha.marketplace.domain.product.request.UpdateProductForm;
 @RequestMapping(path = "api/v1/product")
 @Validated
 public class ProductController {
-    private final ProductService productService;
+	private final ProductService productService;
 
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
 
-    @GetMapping
-    public ResponseEntity<?> getProducts(@RequestParam @Min(0) int page,
-            @RequestParam @Min(1) int size) {
-        Page<Product> productsPage = this.productService.getProducts(page, size);
-        return ResponseEntity.ok(productsPage);
-    }
+	@GetMapping
+	public ResponseEntity<?> getProducts(@RequestParam @Min(0) int page,
+			@RequestParam @Min(1) int size) {
+		Page<Product> productsPage = this.productService.getProducts(page, size);
+		return ResponseEntity.ok(productsPage);
+	}
 
-    @GetMapping(path = "/{productId}")
-    public ResponseEntity<?> getProduct(@PathVariable("productId") UUID id) {
-        return ResponseEntity.ok(this.productService.getProduct(id));
-    }
+	@GetMapping(path = "/{productId}")
+	public ResponseEntity<?> getProduct(@PathVariable("productId") UUID id) {
+		return ResponseEntity.ok(this.productService.getProduct(id));
+	}
 
-    @PostMapping
-    @PreAuthorize("hasPermission(#product, 'CREATE')")
-    public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
-        return ResponseEntity.ok(this.productService.createProduct(product));
-    }
+	@PostMapping
+	@PreAuthorize("hasPermission(#product, 'CREATE')")
+	public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
+		return ResponseEntity.ok(this.productService.createProduct(product));
+	}
 
-    @PatchMapping(path = "{productId}")
-    @PreAuthorize("hasPermission(#id, 'Product', 'UPDATE')")
-    public ResponseEntity<?> updateProduct(@PathVariable("productId") UUID id,
-            @Valid @RequestBody UpdateProductForm productDetails) {
-        return ResponseEntity.ok(this.productService.patchProduct(id, productDetails));
-    }
+	@PatchMapping(path = "{productId}")
+	@PreAuthorize("hasPermission(#id, 'Product', 'UPDATE')")
+	public ResponseEntity<?> updateProduct(@PathVariable("productId") UUID id,
+			@Valid @RequestBody UpdateProductForm productDetails) {
+		return ResponseEntity.ok(this.productService.patchProduct(id, productDetails));
+	}
 
-    @PutMapping(path = "{productId}")
-    @PreAuthorize("hasPermission(#id, 'Product', 'UPDATE')")
-    public ResponseEntity<?> putProduct(@PathVariable("productId") UUID id,
-            @Valid @RequestBody UpdateProductForm productDetails) {
-        return ResponseEntity.ok(this.productService.putProduct(id, productDetails));
-    }
+	@PutMapping(path = "{productId}")
+	@PreAuthorize("hasPermission(#id, 'Product', 'UPDATE')")
+	public ResponseEntity<?> putProduct(@PathVariable("productId") UUID id,
+			@Valid @RequestBody UpdateProductForm productDetails) {
+		return ResponseEntity.ok(this.productService.putProduct(id, productDetails));
+	}
 
-    @DeleteMapping(path = "{productId}")
-    @PreAuthorize("hasPermission(#id, 'Product', 'DELETE')")
-    public ResponseEntity<?> deleteProduct(@PathVariable("productId") UUID id) {
-        this.productService.deleteProduct(id);
-        return ResponseEntity.ok("product with id " + id + " successfully deleted");
-    }
+	@DeleteMapping(path = "{productId}")
+	@PreAuthorize("hasPermission(#id, 'Product', 'DELETE')")
+	public ResponseEntity<?> deleteProduct(@PathVariable("productId") UUID id) {
+		this.productService.deleteProduct(id);
+		return ResponseEntity.ok("product with id " + id + " successfully deleted");
+	}
 }

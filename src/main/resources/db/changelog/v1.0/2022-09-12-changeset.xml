@@ -54,7 +54,7 @@
 			</column>
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="create-table-user_permissions_1"
 		author="andrewsha">
 		<preConditions onFail="MARK_RAN">

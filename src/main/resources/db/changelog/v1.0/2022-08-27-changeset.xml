@@ -24,8 +24,10 @@
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="stores-sellers" />
-				<foreignKeyConstraintExists foreignKeyName="fk_stores_sellers-stores"/>
-				<foreignKeyConstraintExists foreignKeyName="fk_stores_sellers-sellers"/>
+				<foreignKeyConstraintExists
+					foreignKeyName="fk_stores_sellers-stores" />
+				<foreignKeyConstraintExists
+					foreignKeyName="fk_stores_sellers-sellers" />
 			</not>
 		</preConditions>
 		<createTable tableName="stores_sellers">

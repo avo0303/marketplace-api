@@ -3,6 +3,10 @@ package com.andrewsha.marketplace.domain.product;
 import java.io.File;
 import java.util.UUID;
 
+import com.andrewsha.marketplace.domain.product.image.ProductImageRepository;
+import com.andrewsha.marketplace.domain.product.request.UpdateProductForm;
+import com.andrewsha.marketplace.exception.ProductServiceException;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.andrewsha.marketplace.domain.product.image.ProductImageRepository;
-import com.andrewsha.marketplace.domain.product.request.UpdateProductForm;
-import com.andrewsha.marketplace.exception.ProductServiceException;
 
 @Service
 public class ProductService {

@@ -9,8 +9,7 @@
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-	<changeSet id="create-table-sellers"
-		author="andrewsha">
+	<changeSet id="create-table-sellers" author="andrewsha">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="sellers" />
@@ -21,14 +20,13 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<addForeignKeyConstraint
-			baseColumnNames="id" baseTableCatalogName=""
-			baseTableName="sellers" baseTableSchemaName="public"
-			constraintName="fk_sellers_users" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="id" referencedTableCatalogName=""
-			referencedTableName="users" referencedTableSchemaName="public"
-			validate="true" />
+		<addForeignKeyConstraint baseColumnNames="id"
+			baseTableCatalogName="" baseTableName="sellers"
+			baseTableSchemaName="public" constraintName="fk_sellers_users"
+			deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id"
+			referencedTableCatalogName="" referencedTableName="users"
+			referencedTableSchemaName="public" validate="true" />
 	</changeSet>
 
 </databaseChangeLog>

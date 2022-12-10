@@ -1,60 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog 
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
-	xmlns:pro="http://www.liquibase.org/xml/ns/pro" 
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
 
-	<changeSet author="andrewsha" id="dropColumn-stores.short_description">
+	<changeSet author="andrewsha"
+		id="dropColumn-stores.short_description">
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="stores" />
-			<columnExists tableName="stores" columnName="short_description" />
+			<columnExists tableName="stores"
+				columnName="short_description" />
 		</preConditions>
-		<dropColumn 
-			catalogName="DatabaseChangelog" 
-			columnName="short_description" 
-			schemaName="public" 
-			tableName="stores">
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="short_description" schemaName="public" tableName="stores">
 		</dropColumn>
 	</changeSet>
 
-	<changeSet author="andrewsha" id="dropColumn-products.store_id">
+	<changeSet author="andrewsha"
+		id="dropColumn-products.store_id">
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="products" />
 			<columnExists tableName="products" columnName="store_id" />
 		</preConditions>
-		<dropColumn 
-			catalogName="DatabaseChangelog" 
-			columnName="store_id" 
-			schemaName="public" 
-			tableName="products">
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="store_id" schemaName="public" tableName="products">
 		</dropColumn>
 	</changeSet>
 
-	<changeSet author="andrewsha" id="product_cards-addColumn-store_id">
+	<changeSet author="andrewsha"
+		id="product_cards-addColumn-store_id">
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="product_cards" />
 			<not>
-				<columnExists tableName="product_cards" columnName="store_id" />
+				<columnExists tableName="product_cards"
+					columnName="store_id" />
 			</not>
 		</preConditions>
-		<addColumn catalogName="DatabaseChangelog" schemaName="public" tableName="product_cards">
+		<addColumn catalogName="DatabaseChangelog"
+			schemaName="public" tableName="product_cards">
 			<column afterColumn="id" name="store_id" type="uuid"></column>
 		</addColumn>
-		<addNotNullConstraint 
-			catalogName="DatabaseChangelog" 
-			columnDataType="uuid" 
-			columnName="store_id" 
-			constraintName="store_id_not_null" 
-			defaultNullValue="bdadf5e8-132c-46c0-ba28-850ea1c935f9" 
-			schemaName="public" 
-			tableName="product_cards" 
-			validate="true" />
+		<addNotNullConstraint
+			catalogName="DatabaseChangelog" columnDataType="uuid"
+			columnName="store_id" constraintName="store_id_not_null"
+			defaultNullValue="bdadf5e8-132c-46c0-ba28-850ea1c935f9"
+			schemaName="public" tableName="product_cards" validate="true" />
 	</changeSet>
 
 </databaseChangeLog>

@@ -47,8 +47,8 @@ public class StoreController {
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> createStore(@Valid @RequestBody Store store,
             Authentication authentication) {
-        return ResponseEntity
-                .ok(this.storeService.createStore(store, (User) authentication.getPrincipal()));
+        return ResponseEntity.ok(this.storeService.createStore(store,
+                (User) authentication.getPrincipal()));
     }
 
     @DeleteMapping(path = "/{storeId}")

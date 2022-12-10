@@ -1,11 +1,5 @@
 package com.andrewsha.marketplace;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import com.andrewsha.marketplace.domain.product_card.ProductCard;
 import com.andrewsha.marketplace.domain.user.permission.Permission;
 import com.andrewsha.marketplace.domain.user.permission.PermissionEnum;
@@ -14,6 +8,11 @@ import com.andrewsha.marketplace.domain.user.permission.PermissionSetRepository;
 import com.andrewsha.marketplace.domain.user.role.Role;
 import com.andrewsha.marketplace.domain.user.role.RoleEnum;
 import com.andrewsha.marketplace.domain.user.role.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableAutoConfiguration

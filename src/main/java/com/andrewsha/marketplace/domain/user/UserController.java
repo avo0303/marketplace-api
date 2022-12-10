@@ -2,6 +2,9 @@ package com.andrewsha.marketplace.domain.user;
 
 import java.util.UUID;
 import javax.validation.Valid;
+import com.andrewsha.marketplace.domain.user.request.AddPermissionForm;
+import com.andrewsha.marketplace.domain.user.request.CreateUserForm;
+import com.andrewsha.marketplace.domain.user.request.UpdateUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.andrewsha.marketplace.domain.user.request.AddPermissionForm;
-import com.andrewsha.marketplace.domain.user.request.CreateUserForm;
-import com.andrewsha.marketplace.domain.user.request.UpdateUserForm;
 
 @RestController
 @RequestMapping(path = "api/v1/user")

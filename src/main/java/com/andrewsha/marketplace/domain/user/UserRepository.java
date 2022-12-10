@@ -2,7 +2,6 @@ package com.andrewsha.marketplace.domain.user;
 
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

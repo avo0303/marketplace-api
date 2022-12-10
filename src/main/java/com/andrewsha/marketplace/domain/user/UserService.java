@@ -3,6 +3,17 @@ package com.andrewsha.marketplace.domain.user;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import com.andrewsha.marketplace.config.Config;
+import com.andrewsha.marketplace.domain.user.permission.Permission;
+import com.andrewsha.marketplace.domain.user.permission.PermissionService;
+import com.andrewsha.marketplace.domain.user.permission.PermissionSet;
+import com.andrewsha.marketplace.domain.user.request.AddPermissionForm;
+import com.andrewsha.marketplace.domain.user.request.CreateUserForm;
+import com.andrewsha.marketplace.domain.user.request.UpdateUserForm;
+import com.andrewsha.marketplace.domain.user.role.Role;
+import com.andrewsha.marketplace.domain.user.role.RoleEnum;
+import com.andrewsha.marketplace.domain.user.role.RoleRepository;
+import com.andrewsha.marketplace.exception.UserServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -15,18 +26,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.andrewsha.marketplace.config.Config;
-import com.andrewsha.marketplace.domain.user.permission.Permission;
-import com.andrewsha.marketplace.domain.user.permission.PermissionService;
-import com.andrewsha.marketplace.domain.user.permission.PermissionSet;
-import com.andrewsha.marketplace.domain.user.request.AddPermissionForm;
-import com.andrewsha.marketplace.domain.user.request.CreateUserForm;
-import com.andrewsha.marketplace.domain.user.request.UpdateUserForm;
-import com.andrewsha.marketplace.domain.user.role.Role;
-import com.andrewsha.marketplace.domain.user.role.RoleEnum;
-import com.andrewsha.marketplace.domain.user.role.RoleRepository;
-import com.andrewsha.marketplace.exception.UserServiceException;
 
 @Service
 public class UserService implements UserDetailsService {

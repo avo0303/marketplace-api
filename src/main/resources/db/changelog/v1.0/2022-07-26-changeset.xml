@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog 
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
-	xmlns:pro="http://www.liquibase.org/xml/ns/pro" 
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-	<changeSet author="andrewsha" id="dropColumn-products.catgory">
+	<changeSet author="andrewsha"
+		id="dropColumn-products.catgory">
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="products" />
 			<columnExists tableName="products" columnName="category" />
 		</preConditions>
-		<dropColumn 
-			catalogName="DatabaseChangelog" 
-			columnName="category" 
-			schemaName="public" 
-			tableName="products">
+		<dropColumn catalogName="DatabaseChangelog"
+			columnName="category" schemaName="public" tableName="products">
 		</dropColumn>
 	</changeSet>
-	
-	<changeSet author="andrewsha" id="product_cards-addColumn-category">
+
+	<changeSet author="andrewsha"
+		id="product_cards-addColumn-category">
 		<preConditions onFail="MARK_RAN">
 			<tableExists tableName="product_cards" />
 			<not>
-				<columnExists tableName="product_cards" columnName="category" />
+				<columnExists tableName="product_cards"
+					columnName="category" />
 			</not>
 		</preConditions>
-		<addColumn catalogName="DatabaseChangelog" schemaName="public" tableName="product_cards">
+		<addColumn catalogName="DatabaseChangelog"
+			schemaName="public" tableName="product_cards">
 			<column afterColumn="name" name="category" type="varchar(255)"></column>
 		</addColumn>
 	</changeSet>

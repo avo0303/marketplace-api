@@ -24,126 +24,125 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProductCardService {
-    @Autowired
-    private ProductCardRepository productCardRepository;
-    @Autowired
-    private StoreService storeService;
+	@Autowired
+	private ProductCardRepository productCardRepository;
+	@Autowired
+	private StoreService storeService;
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public Page<ProductCard> getProductCards(MultiValueMap<String, String> params)
-            throws MissingServletRequestParameterException {
-        // TODO sorting by rating
-        int page, size;
-        this.logger.info("get products");
-        String category;
-        if (!params.containsKey("page")) {
-            throw new MissingServletRequestParameterException("page", "int");
-        }
-        if (!params.containsKey("size")) {
-            throw new MissingServletRequestParameterException("size", "int");
-        }
-        try {
-            page = Integer.parseInt(params.remove("page").get(0));
-            size = Integer.parseInt(params.remove("size").get(0));
-        } catch (NumberFormatException e) {
-            throw new ProductCardServiceException("given page (size) parameter is not valid");
-        }
-        if (params.containsKey("category")) {
-            category = params.remove("category").get(0);
-            if (!params.isEmpty()) {
-                String json;
-                try {
-                    json = new ObjectMapper().writeValueAsString(params.toSingleValueMap());
-                    return this.productCardRepository.findByCategoryAndAttributes(category, json,
-                            PageRequest.of(page, size));
-                } catch (JsonProcessingException e) {
-                    throw new ProductCardServiceException("failed to parse attributes");
-                }
-            }
-            return this.productCardRepository.findByCategory(category, PageRequest.of(page, size));
-        }
-        if (!params.isEmpty()) {
-            String json;
-            try {
-                json = new ObjectMapper().writeValueAsString(params.toSingleValueMap());
-                return this.productCardRepository.findByAttributes(json,
-                        PageRequest.of(page, size));
-            } catch (JsonProcessingException e) {
-                throw new ProductCardServiceException("failed to parse attributes");
-            }
-        }
-        return this.productCardRepository.findAll(PageRequest.of(page, size));
-    }
+	public Page<ProductCard> getProductCards(MultiValueMap<String, String> params)
+			throws MissingServletRequestParameterException {
+		// TODO sorting by rating
+		int page, size;
+		String category;
+		if (!params.containsKey("page")) {
+			throw new MissingServletRequestParameterException("page", "int");
+		}
+		if (!params.containsKey("size")) {
+			throw new MissingServletRequestParameterException("size", "int");
+		}
+		try {
+			page = Integer.parseInt(params.remove("page").get(0));
+			size = Integer.parseInt(params.remove("size").get(0));
+		} catch (NumberFormatException e) {
+			throw new ProductCardServiceException("given page (size) parameter is not valid");
+		}
+		if (params.containsKey("category")) {
+			category = params.remove("category").get(0);
+			if (!params.isEmpty()) {
+				String json;
+				try {
+					json = new ObjectMapper().writeValueAsString(params.toSingleValueMap());
+					return this.productCardRepository.findByCategoryAndAttributes(category, json,
+							PageRequest.of(page, size));
+				} catch (JsonProcessingException e) {
+					throw new ProductCardServiceException("failed to parse attributes");
+				}
+			}
+			return this.productCardRepository.findByCategory(category, PageRequest.of(page, size));
+		}
+		if (!params.isEmpty()) {
+			String json;
+			try {
+				json = new ObjectMapper().writeValueAsString(params.toSingleValueMap());
+				return this.productCardRepository.findByAttributes(json,
+						PageRequest.of(page, size));
+			} catch (JsonProcessingException e) {
+				throw new ProductCardServiceException("failed to parse attributes");
+			}
+		}
+		return this.productCardRepository.findAll(PageRequest.of(page, size));
+	}
 
-    public ProductCard getProductCard(UUID id) {
-        return this.productCardRepository.findById(id)
-                .orElseThrow(() -> new ProductServiceException(
-                        "product card with id " + id + " does not exists"));
-    }
+	public ProductCard getProductCard(UUID id) {
+		return this.productCardRepository.findById(id)
+				.orElseThrow(() -> new ProductServiceException(
+						"product card with id " + id + " does not exists"));
+	}
 
-    @Transactional
-    public ProductCard createProductCard(CreateProductCardForm productCardDetails) {
-        Store store = this.storeService.getStore(productCardDetails.getStore());
-        ProductCard productCard = new ProductCard();
-        productCard.setStore(store);
-        productCard.setName(productCardDetails.getName());
-        productCard.setShortDescription(productCardDetails.getShortDescription());
-        productCard.setDescription(productCardDetails.getDescription());
-        for (Product product : productCardDetails.getProducts()) {
-            productCard.addProduct(product);
-        }
-        productCard.setCategory(productCardDetails.getCategory());
-        return this.productCardRepository.save(productCard);
-    }
+	@Transactional
+	public ProductCard createProductCard(CreateProductCardForm productCardDetails) {
+		Store store = this.storeService.getStore(productCardDetails.getStore());
+		ProductCard productCard = new ProductCard();
+		productCard.setStore(store);
+		productCard.setName(productCardDetails.getName());
+		productCard.setShortDescription(productCardDetails.getShortDescription());
+		productCard.setDescription(productCardDetails.getDescription());
+		for (Product product : productCardDetails.getProducts()) {
+			productCard.addProduct(product);
+		}
+		productCard.setCategory(productCardDetails.getCategory());
+		return this.productCardRepository.save(productCard);
+	}
 
-    @Transactional
-    public ProductCard patchProductCard(UUID id, UpdateProductCardForm productDetails) {
-        ProductCard productCard = this.productCardRepository.findById(id)
-                .orElseThrow(() -> new ProductServiceException(
-                        "product card with id " + id + " does not exists"));
-        if (productDetails.getName() != null) {
-            productCard.setName(productDetails.getName());
-        }
-        if (productDetails.getShortDescription() != null) {
-            productCard.setShortDescription(productDetails.getShortDescription());
-        }
-        if (productDetails.getDescription() != null) {
-            productCard.setDescription(productDetails.getDescription());
-        }
-        if (productDetails.getProducts() != null) {
-            productCard.setProducts(productDetails.getProducts());
-        }
-        if (productDetails.getCategory() != null) {
-            productCard.setCategory(productDetails.getCategory());
-        }
-        return this.productCardRepository.save(productCard);
-    }
+	@Transactional
+	public ProductCard patchProductCard(UUID id, UpdateProductCardForm productDetails) {
+		ProductCard productCard = this.productCardRepository.findById(id)
+				.orElseThrow(() -> new ProductServiceException(
+						"product card with id " + id + " does not exists"));
+		if (productDetails.getName() != null) {
+			productCard.setName(productDetails.getName());
+		}
+		if (productDetails.getShortDescription() != null) {
+			productCard.setShortDescription(productDetails.getShortDescription());
+		}
+		if (productDetails.getDescription() != null) {
+			productCard.setDescription(productDetails.getDescription());
+		}
+		if (productDetails.getProducts() != null) {
+			productCard.setProducts(productDetails.getProducts());
+		}
+		if (productDetails.getCategory() != null) {
+			productCard.setCategory(productDetails.getCategory());
+		}
+		return this.productCardRepository.save(productCard);
+	}
 
-    @Transactional
-    public ProductCard putProductCard(UUID id, UpdateProductCardForm productDetails) {
-        ProductCard productCard = this.productCardRepository.findById(id)
-                .orElseThrow(() -> new ProductCardServiceException(
-                        "product card with id " + id + " does not exists"));
-        productCard.setName(productDetails.getName());
-        productCard.setShortDescription(productDetails.getShortDescription());
-        productCard.setDescription(productDetails.getDescription());
-        productCard.setProducts(productDetails.getProducts());
-        productCard.setCategory(productDetails.getCategory());
+	@Transactional
+	public ProductCard putProductCard(UUID id, UpdateProductCardForm productDetails) {
+		ProductCard productCard = this.productCardRepository.findById(id)
+				.orElseThrow(() -> new ProductCardServiceException(
+						"product card with id " + id + " does not exists"));
+		productCard.setName(productDetails.getName());
+		productCard.setShortDescription(productDetails.getShortDescription());
+		productCard.setDescription(productDetails.getDescription());
+		productCard.setProducts(productDetails.getProducts());
+		productCard.setCategory(productDetails.getCategory());
 
-        return productCard;
-    }
+		return productCard;
+	}
 
-    @Transactional
-    public ProductCard putProductToProductCard(UUID productCardId, Product product) {
-        ProductCard productCard = this.productCardRepository.findById(productCardId)
-                .orElseThrow(() -> new ProductCardServiceException(
-                        "product card with id " + productCardId + " does not exists"));
-        productCard.addProduct(product);
-        return this.productCardRepository.save(productCard);
-    }
+	@Transactional
+	public ProductCard putProductToProductCard(UUID productCardId, Product product) {
+		ProductCard productCard = this.productCardRepository.findById(productCardId)
+				.orElseThrow(() -> new ProductCardServiceException(
+						"product card with id " + productCardId + " does not exists"));
+		productCard.addProduct(product);
+		return this.productCardRepository.save(productCard);
+	}
 
-    public void deleteProductCard(UUID id) {
-        this.productCardRepository.deleteById(id);
-    }
+	public void deleteProductCard(UUID id) {
+		this.productCardRepository.deleteById(id);
+	}
 }

@@ -1,5 +1,7 @@
 package com.andrewsha.marketplace.security.config;
 
+import com.andrewsha.marketplace.security.filter.CustomUsernamePasswordAuthFilter;
+import com.andrewsha.marketplace.security.filter.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +20,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.andrewsha.marketplace.security.filter.CustomUsernamePasswordAuthFilter;
-import com.andrewsha.marketplace.security.filter.TokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -60,7 +59,6 @@ public class SecurityConfig {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/user").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/product/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/product-card/**").permitAll();
-
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(usernamePasswordAuthFilter);
