@@ -14,14 +14,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-            org.springframework.security.core.AuthenticationException authException)
-            throws IOException, ServletException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(response.getOutputStream(),
-                new CustomExceptionBody("unauthorized", null, HttpStatus.UNAUTHORIZED));
-    }
+	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			org.springframework.security.core.AuthenticationException authException)
+			throws IOException, ServletException {
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.writeValue(response.getOutputStream(),
+				new CustomExceptionBody("unauthorized", null, HttpStatus.UNAUTHORIZED));
+	}
 }

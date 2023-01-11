@@ -6,8 +6,9 @@ import javax.validation.Valid;
 import com.andrewsha.marketplace.domain.product.Product;
 import com.andrewsha.marketplace.domain.product_card.request.CreateProductCardForm;
 import com.andrewsha.marketplace.domain.product_card.request.UpdateProductCardForm;
-import com.andrewsha.marketplace.domain.product_card.resource.ModelBuilder;
+import com.andrewsha.marketplace.utils.DTOBuilder;
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder;
+import com.toedter.spring.hateoas.jsonapi.MediaTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,14 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductCardController {
 	@Autowired
 	private ProductCardService productCardService;
-	// TODO change to interface
+
 	@Autowired
-	private ModelBuilder builder;
+	private DTOBuilder<ProductCard> builder;
 
 	@GetMapping(produces = JSON_API_VALUE)
 	public ResponseEntity<?> getProductCards(
-			// @RequestParam @Min(0) int page, @RequestParam @Min(1) int size,
-			// @RequestParam(required = false) Optional<String> category,
 			@RequestParam(required = true) MultiValueMap<String, String> params)
 			throws MissingServletRequestParameterException {
 		return ResponseEntity
@@ -47,11 +46,10 @@ public class ProductCardController {
 
 	@GetMapping(path = "/{productCardId}", produces = JSON_API_VALUE)
 	public ResponseEntity<?> getProductCard(@PathVariable("productCardId") UUID id) {
-		// TODO допилить спеку
 		return ResponseEntity.ok(this.builder.build(this.productCardService.getProductCard(id)));
 	}
 
-	@PostMapping()
+	@PostMapping(produces = JSON_API_VALUE)
 	@PreAuthorize("hasPermission(#productCard.store, 'ProductCard', 'CREATE')")
 	public ResponseEntity<?> createProductCard(
 			@Valid @RequestBody CreateProductCardForm productCard) {
@@ -59,7 +57,7 @@ public class ProductCardController {
 				.ok(this.builder.build(this.productCardService.createProductCard(productCard)));
 	}
 
-	@PatchMapping(path = "{productCardId}")
+	@PatchMapping(path = "{productCardId}", produces = JSON_API_VALUE)
 	@PreAuthorize("hasPermission(#id, 'ProductCard', 'UPDATE')")
 	public ResponseEntity<?> patchProductCard(@PathVariable("productCardId") UUID id,
 			@Valid @RequestBody UpdateProductCardForm productCardDetails) {
@@ -67,7 +65,7 @@ public class ProductCardController {
 				.build(this.productCardService.patchProductCard(id, productCardDetails)));
 	}
 
-	@PutMapping(path = "{productCardId}")
+	@PutMapping(path = "{productCardId}", produces = JSON_API_VALUE)
 	@PreAuthorize("hasPermission(#id, 'ProductCard', 'UPDATE')")
 	public ResponseEntity<?> putProductCard(@PathVariable("productCardId") UUID id,
 			@Valid @RequestBody UpdateProductCardForm productCardDetails) {
@@ -84,7 +82,7 @@ public class ProductCardController {
 				this.productCardService.putProductToProductCard(productCardId, productDetails)));
 	}
 
-	@DeleteMapping(path = "{productCardId}")
+	@DeleteMapping(path = "{productCardId}", produces = MediaTypes.JSON_API_VALUE)
 	@PreAuthorize("hasPermission(#id, 'ProductCard', 'DELETE')")
 	public ResponseEntity<?> deleteProductCard(@PathVariable("productCardId") UUID id) {
 		this.productCardService.deleteProductCard(id);

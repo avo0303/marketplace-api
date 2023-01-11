@@ -1,15 +1,13 @@
 package com.andrewsha.marketplace.security.authority;
 
+import com.andrewsha.marketplace.domain.user.authority.Authority;
+import com.andrewsha.marketplace.domain.user.authority.RoleEnum;
 import org.springframework.security.core.GrantedAuthority;
-
-import com.andrewsha.marketplace.domain.user.permission.Permission;
-import com.andrewsha.marketplace.domain.user.role.RoleEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CustomGrantedAuthority implements GrantedAuthority {
     private final RoleEnum role;
     private final String scope;
-    private final String permission;
+    private final String authorityName;
 
     private static final long serialVersionUID = 3709905622125984076L;
 
@@ -18,39 +16,40 @@ public class CustomGrantedAuthority implements GrantedAuthority {
         if (this.role != null) {
             return this.role.toString().toUpperCase();
         } else {
-            if (this.permission != null && this.scope != null) {
-                return "PERMISSION_" + this.permission.toUpperCase() + "_" + this.scope;
+            if (this.authorityName!= null && this.scope != null) {
+                return "PERMISSION_" + this.authorityName.toUpperCase() + "_" + this.scope;
             }
         }
         return null;
     }
 
-    public CustomGrantedAuthority(Permission permission, String scope) {
+    public CustomGrantedAuthority(Authority authority, String scope) {
         super();
         this.role = null;
         this.scope = scope;
-        this.permission = permission.getName();
+        this.authorityName = authority.getName();
     }
 
     public CustomGrantedAuthority(RoleEnum role) {
         super();
         this.role = role;
         this.scope = null;
-        this.permission = null;
+        this.authorityName = null;
     }
 
-    @JsonIgnore
-    public RoleEnum getRole() {
-        return role;
-    }
+	public RoleEnum getRole() {
+		return role;
+	}
 
-    @JsonIgnore
-    public String getScope() {
-        return scope;
-    }
+	public String getScope() {
+		return scope;
+	}
 
-    @JsonIgnore
-    public String getPermission() {
-        return permission;
-    }
+	public String getAuthorityName() {
+		return authorityName;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

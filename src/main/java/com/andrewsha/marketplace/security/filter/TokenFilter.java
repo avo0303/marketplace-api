@@ -25,52 +25,52 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Component
 public class TokenFilter extends OncePerRequestFilter {
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private JwtUtils jwtUtils;
+	@Autowired
+	private UserDetailsService userDetailsService;
+	@Autowired
+	private JwtUtils jwtUtils;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
-        try {
-            JwtToken accessToken = this.jwtUtils.getAccessToken(request);
-            if (accessToken != null) {
-                UserDetails userDetails;
-                DecodedJWT decodedAccessToken = this.jwtUtils.validateJwt(accessToken);
-                if (decodedAccessToken != null) {
-                    String username = decodedAccessToken.getSubject();
-                    userDetails = userDetailsService.loadUserByUsername(username);
-                } else {
-                    JwtToken refreshToken = this.jwtUtils.getRefreshToken(request);
-                    if (refreshToken != null) {
-                        DecodedJWT decodedRefreshToken = this.jwtUtils.validateJwt(refreshToken);
-                        String username = decodedRefreshToken.getSubject();
-                        userDetails = userDetailsService.loadUserByUsername(username);
-                        accessToken = this.jwtUtils.generateAccessToken(userDetails, request);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+			FilterChain filterChain) throws ServletException, IOException {
+		try {
+			JwtToken accessToken = this.jwtUtils.getAccessToken(request);
+			if (accessToken != null) {
+				UserDetails userDetails;
+				DecodedJWT decodedAccessToken = this.jwtUtils.validateJwt(accessToken);
+				if (decodedAccessToken != null) {
+					String username = decodedAccessToken.getSubject();
+					userDetails = userDetailsService.loadUserByUsername(username);
+				} else {
+					JwtToken refreshToken = this.jwtUtils.getRefreshToken(request);
+					if (refreshToken != null) {
+						DecodedJWT decodedRefreshToken = this.jwtUtils.validateJwt(refreshToken);
+						String username = decodedRefreshToken.getSubject();
+						userDetails = userDetailsService.loadUserByUsername(username);
+						accessToken = this.jwtUtils.generateAccessToken(userDetails, request);
 
-                        response.setHeader(HttpHeaders.SET_COOKIE,
-                                this.jwtUtils.createTokenCookie(accessToken).toString());
-                    } else {
-                        throw new JwtUtilsException("cannot refresh token");
-                    }
-                }
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null,
-                                userDetails.getAuthorities());
-                authenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                context.setAuthentication(authenticationToken);
-                SecurityContextHolder.setContext(context);
-            }
-        } catch (Exception e) {
-            this.logger.error(e.getMessage(), e);
-        }
-        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200");
-        filterChain.doFilter(request, response);
-    }
+						response.setHeader(HttpHeaders.SET_COOKIE,
+								this.jwtUtils.createTokenCookie(accessToken).toString());
+					} else {
+						throw new JwtUtilsException("cannot refresh token");
+					}
+				}
+				UsernamePasswordAuthenticationToken authenticationToken =
+						new UsernamePasswordAuthenticationToken(userDetails, null,
+								userDetails.getAuthorities());
+				authenticationToken
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContext context = SecurityContextHolder.createEmptyContext();
+				context.setAuthentication(authenticationToken);
+				SecurityContextHolder.setContext(context);
+			}
+		} catch (Exception e) {
+			this.logger.error(e.getMessage(), e);
+		}
+		response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+		response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200");
+		filterChain.doFilter(request, response);
+	}
 }

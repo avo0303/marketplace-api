@@ -33,15 +33,4 @@ public class Config implements WebMvcConfigurer {
 	Logger getLogger() {
 		return LoggerFactory.getLogger(this.getClass());
 	}
-
-	/*
-	 * @Bean JsonApiConfiguration jsonApiConfiguration() { return new
-	 * JsonApiConfiguration().withJsonApiVersionRendered(true)
-	 * .withPluralizedTypeRendered(false).withLowerCasedTypeRendered(false)
-	 * .withTypeForClass(ProductCardDTO.class, "product-card")
-	 * .withTypeForClassUsedForDeserialization(true)
-	 * .withEmptyAttributesObjectSerialized(false).withJsonApiIdNotSerializedForValue("-1")
-	 * .withObjectMapperCustomizer(objectMapper -> objectMapper
-	 * .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)); }
-	 */
 }

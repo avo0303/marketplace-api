@@ -1,4 +1,4 @@
-package com.andrewsha.marketplace.domain.user.role;
+package com.andrewsha.marketplace.domain.user.authority;
 
 import java.util.Optional;
 

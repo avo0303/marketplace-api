@@ -36,15 +36,15 @@ public class ProductCardService {
 		// TODO sorting by rating
 		int page, size;
 		String category;
-		if (!params.containsKey("page")) {
-			throw new MissingServletRequestParameterException("page", "int");
+		if (!params.containsKey("page[number]")) {
+			throw new MissingServletRequestParameterException("page[number]", "int");
 		}
-		if (!params.containsKey("size")) {
-			throw new MissingServletRequestParameterException("size", "int");
+		if (!params.containsKey("page[size]")) {
+			throw new MissingServletRequestParameterException("page[size]", "int");
 		}
 		try {
-			page = Integer.parseInt(params.remove("page").get(0));
-			size = Integer.parseInt(params.remove("size").get(0));
+			page = Integer.parseInt(params.remove("page[number]").get(0));
+			size = Integer.parseInt(params.remove("page[size]").get(0));
 		} catch (NumberFormatException e) {
 			throw new ProductCardServiceException("given page (size) parameter is not valid");
 		}

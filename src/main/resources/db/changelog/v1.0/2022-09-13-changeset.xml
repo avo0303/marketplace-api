@@ -4,10 +4,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
 	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
-		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+						http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+						http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
 	<changeSet id="add-unique-constraint_permissions"
 		author="andrewsha">
@@ -16,7 +15,7 @@
 	</changeSet>
 
 	<changeSet id="drop-column-scope_object" author="andrewsha">
-		<preConditions>
+		<preConditions onFail="MARK_RAN">
 			<columnExists tableName="permission_sets"
 				columnName="scope_object" />
 		</preConditions>
@@ -25,7 +24,7 @@
 	</changeSet>
 
 	<changeSet id="rename-column-scope_type" author="andrewsha">
-		<preConditions>
+		<preConditions onFail="MARK_RAN">
 			<columnExists tableName="permission_sets"
 				columnName="scope_type" />
 		</preConditions>

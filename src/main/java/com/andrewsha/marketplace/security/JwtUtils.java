@@ -86,6 +86,6 @@ public class JwtUtils {
         return ResponseCookie.from(token.getName(), token.getValue()).domain("").httpOnly(true)
                 .path("")
                 // .secure(true)
-                .sameSite("None").maxAge(Long.parseLong(this.jwtCookieExpiry)).build();
+                .sameSite("Strict").maxAge(Long.parseLong(this.jwtCookieExpiry)).build();
     }
 }

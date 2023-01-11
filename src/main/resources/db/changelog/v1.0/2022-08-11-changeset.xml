@@ -18,7 +18,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="stores">
-			<column afterColumn="id" name="owner_id" type="uuid"></column>
+			<column name="owner_id" type="uuid"></column>
 		</addColumn>
 	</changeSet>
 

@@ -35,8 +35,9 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getProducts(@RequestParam @Min(0) int page,
-			@RequestParam @Min(1) int size) {
+	public ResponseEntity<?> getProducts(
+			@RequestParam(value = "page[number]", required = true) @Min(0) int page,
+			@RequestParam(value = "page[size]", required = true) @Min(1) int size) {
 		Page<Product> productsPage = this.productService.getProducts(page, size);
 		return ResponseEntity.ok(productsPage);
 	}

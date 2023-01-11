@@ -1,8 +1,7 @@
-package com.andrewsha.marketplace.domain.user.role;
+package com.andrewsha.marketplace.domain.user.authority;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,17 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-
 import com.andrewsha.marketplace.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "roles")
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Role {
     @Id
     @GenericGenerator(name = "LongId", strategy = "org.hibernate.id.IncrementGenerator")
@@ -61,10 +55,6 @@ public class Role {
     public void setName(RoleEnum name) {
         this.name = name;
     }
-
-    // public void setName(String name) {
-    // this.name = RoleEnum.valueOf(name);
-    // }
 
     public Set<User> getUsers() {
         return users;

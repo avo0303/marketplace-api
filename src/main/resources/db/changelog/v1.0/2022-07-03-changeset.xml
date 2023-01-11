@@ -20,7 +20,7 @@
 		</preConditions>
 		<addColumn catalogName="" schemaName="public"
 			tableName="products">
-			<column afterColumn="id" name="attributes" type="jsonb">
+			<column name="attributes" type="jsonb">
 				<constraints nullable="true" />
 			</column>
 		</addColumn>

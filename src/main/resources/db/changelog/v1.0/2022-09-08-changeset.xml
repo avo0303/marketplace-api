@@ -50,7 +50,7 @@
 		</dropColumn>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="permissions">
-			<column afterColumn="id" name="name" type="varchar(255)"></column>
+			<column name="name" type="varchar(255)"></column>
 		</addColumn>
 	</changeSet>
 

@@ -31,7 +31,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="product_cards">
-			<column afterColumn="name" name="category" type="varchar(255)"></column>
+			<column name="category" type="varchar(255)"></column>
 		</addColumn>
 	</changeSet>
 

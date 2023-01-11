@@ -24,54 +24,54 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-    @Autowired
-    private TokenFilter tokenFilter;
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
+	@Autowired
+	private TokenFilter tokenFilter;
+	@Autowired
+	private AuthenticationEntryPoint authenticationEntryPoint;
+	@Autowired
+	private AuthenticationFailureHandler authenticationFailureHandler;
+	@Autowired
+	private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http,
-            PasswordEncoder passwordEncoder, UserDetailsService userDetailsService)
-            throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService).passwordEncoder(passwordEncoder).and()
-                .build();
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(HttpSecurity http,
+			PasswordEncoder passwordEncoder, UserDetailsService userDetailsService)
+			throws Exception {
+		return http.getSharedObject(AuthenticationManagerBuilder.class)
+				.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder).and()
+				.build();
+	}
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,
-            AuthenticationManager authenticationManager) throws Exception {
-        CustomUsernamePasswordAuthFilter usernamePasswordAuthFilter =
-                new CustomUsernamePasswordAuthFilter(authenticationManager,
-                        authenticationFailureHandler, authenticationSuccessHandler);
-        usernamePasswordAuthFilter.setFilterProcessesUrl("/api/login");
-        http.csrf().disable();
-        http.cors();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http,
+			AuthenticationManager authenticationManager) throws Exception {
+		CustomUsernamePasswordAuthFilter usernamePasswordAuthFilter =
+				new CustomUsernamePasswordAuthFilter(authenticationManager,
+						authenticationFailureHandler, authenticationSuccessHandler);
+		usernamePasswordAuthFilter.setFilterProcessesUrl("/api/login");
+		http.csrf().disable();
+		http.cors();
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/api/login/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/user").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/product/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/product-card/**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/api/login/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/user/").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/product/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/product-card/**").permitAll();
+		http.authorizeRequests().anyRequest().authenticated();
 
-        http.addFilter(usernamePasswordAuthFilter);
-        http.addFilterBefore(this.tokenFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilter(usernamePasswordAuthFilter);
+		http.addFilterBefore(this.tokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.exceptionHandling().accessDeniedHandler(this.accessDeniedHandler);
-        http.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);
-        return http.build();
-    }
+		http.exceptionHandling().accessDeniedHandler(this.accessDeniedHandler);
+		http.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);
+		return http.build();
+	}
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.debug(true).ignoring().antMatchers("/css/**", "/js/**", "/img/**",
-                "/lib/**", "/favicon.ico");
-    }
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.debug(true).ignoring().antMatchers("/css/**", "/js/**", "/img/**",
+				"/lib/**", "/favicon.ico");
+	}
 }

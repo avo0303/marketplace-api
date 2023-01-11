@@ -4,14 +4,14 @@ import com.andrewsha.marketplace.domain.product.image.ProductImage;
 import com.toedter.spring.hateoas.jsonapi.JsonApiId;
 import com.toedter.spring.hateoas.jsonapi.JsonApiType;
 
-public class ProductImageResource {
+public class ProductImageDTO {
     @JsonApiId
     private final String id;
     @JsonApiType
     private final String type = "product-image";
     private final String url;
 
-    public ProductImageResource(ProductImage image) {
+    public ProductImageDTO(ProductImage image) {
         this.id = image.getId().toString();
         this.url = image.getUrl();
     }

@@ -20,7 +20,7 @@
 		</preConditions>
 		<addColumn catalogName="" schemaName="public"
 			tableName="products">
-			<column afterColumn="id" name="category" type="varchar(255)">
+			<column name="category" type="varchar(255)">
 				<constraints nullable="true" />
 			</column>
 		</addColumn>

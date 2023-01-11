@@ -4,19 +4,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
 	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
-		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+						http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+						http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-	<changeSet id="create-table-user_permissions"
+	<changeSet id="create-table-permission_sets"
 		author="andrewsha">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="user_permissions" />
+				<tableExists tableName="permission_sets" />
 			</not>
 		</preConditions>
-		<createTable tableName="user_permissions">
+		<createTable tableName="permission_sets">
 			<column name="id" type="uuid">
 				<constraints nullable="false" />
 			</column>
@@ -27,15 +26,6 @@
 				<constraints nullable="true" />
 			</column>
 		</createTable>
-	</changeSet>
-
-	<changeSet id="rename-table-user_permissions"
-		author="andrewsha">
-		<preConditions onFail="MARK_RAN">
-			<tableExists tableName="user_permissions" />
-		</preConditions>
-		<renameTable newTableName="permission_sets"
-			oldTableName="user_permissions" schemaName="public" />
 	</changeSet>
 
 	<changeSet id="create-table-permission_sets_permissions"
@@ -55,7 +45,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="create-table-user_permissions_1"
+	<changeSet id="create-table-user_permissions"
 		author="andrewsha">
 		<preConditions onFail="MARK_RAN">
 			<not>

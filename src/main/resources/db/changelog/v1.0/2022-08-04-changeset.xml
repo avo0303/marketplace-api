@@ -73,7 +73,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="users">
-			<column afterColumn="name" name="profile_icon"
+			<column name="profile_icon"
 				type="varchar(255)"></column>
 		</addColumn>
 	</changeSet>
@@ -103,7 +103,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="users">
-			<column afterColumn="id" name="name" type="varchar(255)"></column>
+			<column name="name" type="varchar(255)"></column>
 		</addColumn>
 	</changeSet>
 

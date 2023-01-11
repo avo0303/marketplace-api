@@ -4,15 +4,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
 	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
-		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+						http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+						http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
 	<changeSet id="rename-column-users.expired"
 		author="andrewsha">
-		<preConditions>
+		<preConditions onFail="MARK_RAN">
 			<columnExists tableName="users" columnName="expired" />
+			<not>
+				<columnExists tableName="users" columnName="account_expired" />
+			</not>
 		</preConditions>
 		<renameColumn tableName="users" oldColumnName="expired"
 			newColumnName="account_expired" />
@@ -29,7 +31,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="users">
-			<column afterColumn="account_expired" name="account_locked"
+			<column name="account_locked"
 				type="date"></column>
 		</addColumn>
 	</changeSet>
@@ -45,7 +47,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="users">
-			<column afterColumn="account_locked"
+			<column
 				name="credentials_expired" type="date"></column>
 		</addColumn>
 	</changeSet>

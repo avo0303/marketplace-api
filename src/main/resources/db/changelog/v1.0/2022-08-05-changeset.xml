@@ -20,7 +20,7 @@
 		</preConditions>
 		<addColumn catalogName="DatabaseChangelog"
 			schemaName="public" tableName="users">
-			<column afterColumn="email" name="phone_number"
+			<column name="phone_number"
 				type="varchar(255)"></column>
 		</addColumn>
 	</changeSet>

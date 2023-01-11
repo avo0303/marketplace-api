@@ -6,7 +6,7 @@ import org.springframework.hateoas.RepresentationModel;
 /**
  * ModelBuilder
  */
-public interface DomainObjectModelBuilder<T extends Object> {
+public interface DTOBuilder<T extends Object> {
 	public RepresentationModel<?> build(T source);
 	public RepresentationModel<?> build(Page<T> page);
 }
