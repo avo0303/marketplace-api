@@ -1,6 +1,7 @@
 package com.andrewsha.marketplace.domain.product;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +21,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.andrewsha.marketplace.domain.product.image.ProductImage;
@@ -62,7 +62,6 @@ public class Product {
 
 	@Valid
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@NotEmpty(message = "images list must be not empty")
 	private List<ProductImage> images = new ArrayList<>();
 
 	@Type(type = "jsonb")
@@ -131,12 +130,20 @@ public class Product {
 		this.images = images;
 	}
 
-	public void addImageURL(String url) {
+	public void addImage(String url) {
 		this.images.add(new ProductImage(url, this));
 	}
 
-	public void addImage(ProductImage productImage) {
-		this.images.add(productImage);
+	public void addImages(Iterable<String> url) {
+		url.forEach(e -> this.images.add(new ProductImage(e, this)));
+	}
+
+	public void addImage(ProductImage image) {
+		this.images.add(image);
+	}
+
+	public void addImages(Collection<? extends ProductImage> images) {
+		this.images.addAll(images);
 	}
 
 	public Set<ProductCard> getProductCards() {

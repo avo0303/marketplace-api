@@ -1,14 +1,15 @@
 package com.andrewsha.marketplace.domain.product;
 
 import java.util.UUID;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-
+import com.andrewsha.marketplace.domain.product.request.CreateProductForm;
+import com.andrewsha.marketplace.domain.product.request.UpdateProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.andrewsha.marketplace.domain.product.request.UpdateProductForm;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(path = "api/v1/product")
@@ -49,8 +49,10 @@ public class ProductController {
 
 	@PostMapping
 	@PreAuthorize("hasPermission(#product, 'CREATE')")
-	public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
-		return ResponseEntity.ok(this.productService.createProduct(product));
+	public ResponseEntity<?> createProduct(
+			@Valid @RequestParam(value = "body", required = true) CreateProductForm product,
+			@RequestParam(required = false) MultiValueMap<String, MultipartFile> files) {
+		return ResponseEntity.ok(this.productService.createProduct(product, files));
 	}
 
 	@PatchMapping(path = "{productId}")

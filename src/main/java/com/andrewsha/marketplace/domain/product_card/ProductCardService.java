@@ -1,7 +1,9 @@
 package com.andrewsha.marketplace.domain.product_card;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
+import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.andrewsha.marketplace.domain.product.Product;
+import com.andrewsha.marketplace.domain.product.ProductRepository;
+import com.andrewsha.marketplace.domain.product.request.CreateProductForm;
 import com.andrewsha.marketplace.domain.product_card.request.CreateProductCardForm;
 import com.andrewsha.marketplace.domain.product_card.request.UpdateProductCardForm;
 import com.andrewsha.marketplace.domain.store.Store;
@@ -26,6 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProductCardService {
 	@Autowired
 	private ProductCardRepository productCardRepository;
+	@Autowired
+	private ProductRepository productRepository;
 	@Autowired
 	private StoreService storeService;
 
@@ -81,17 +87,23 @@ public class ProductCardService {
 						"product card with id " + id + " does not exists"));
 	}
 
+	// TODO
 	@Transactional
-	public ProductCard createProductCard(CreateProductCardForm productCardDetails) {
+	public ProductCard createProductCard(CreateProductCardForm productCardDetails,
+			MultiValueMap<String, MultipartFile> files) {
+		for (Entry<String, List<MultipartFile>> entry : files.entrySet()) {
+			//TODO save files, set images for products
+		}
 		Store store = this.storeService.getStore(productCardDetails.getStore());
 		ProductCard productCard = new ProductCard();
 		productCard.setStore(store);
 		productCard.setName(productCardDetails.getName());
 		productCard.setShortDescription(productCardDetails.getShortDescription());
 		productCard.setDescription(productCardDetails.getDescription());
-		for (Product product : productCardDetails.getProducts()) {
-			productCard.addProduct(product);
-		}
+		/*
+		 * for (CreateProductForm product : productCardDetails.getProducts() {
+		 * productCard.addProduct(this.productRepository.save(prod)); }
+		 */
 		productCard.setCategory(productCardDetails.getCategory());
 		return this.productCardRepository.save(productCard);
 	}

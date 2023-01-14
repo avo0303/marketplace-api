@@ -1,6 +1,5 @@
 package com.andrewsha.marketplace.domain.product_card.resource;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import com.andrewsha.marketplace.domain.product.resource.ProductDTO;

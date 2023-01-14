@@ -3,14 +3,12 @@ package com.andrewsha.marketplace.domain.product_card.request;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.andrewsha.marketplace.domain.product.Product;
+import com.andrewsha.marketplace.domain.product.request.CreateProductForm;
 
 public class CreateProductCardForm {
     @NotBlank(message = "name cannot be empty or null")
@@ -28,7 +26,7 @@ public class CreateProductCardForm {
 
     @Valid
     @NotEmpty(message = "set of products cannot be empty")
-    private Set<Product> products = new HashSet<>();
+    private Set<CreateProductForm> products = new HashSet<>();
 
     @NotBlank(message = "category cannot be empty or null")
     private String category;
@@ -60,15 +58,15 @@ public class CreateProductCardForm {
         this.description = description;
     }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
+    public Set<CreateProductForm> getProducts() {
+		return products;
+	}
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
+	public void setProducts(Set<CreateProductForm> products) {
+		this.products = products;
+	}
 
-    public String getCategory() {
+	public String getCategory() {
         return category;
     }
 

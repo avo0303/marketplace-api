@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(path = "api/v1/product-card")
@@ -44,17 +45,18 @@ public class ProductCardController {
 				.ok(this.builder.build(this.productCardService.getProductCards(params)));
 	}
 
-	@GetMapping(path = "/{productCardId}", produces = JSON_API_VALUE)
-	public ResponseEntity<?> getProductCard(@PathVariable("productCardId") UUID id) {
+	@GetMapping(path = "/{id}", produces = JSON_API_VALUE)
+	public ResponseEntity<?> getProductCard(@PathVariable("id") UUID id) {
 		return ResponseEntity.ok(this.builder.build(this.productCardService.getProductCard(id)));
 	}
 
 	@PostMapping(produces = JSON_API_VALUE)
 	@PreAuthorize("hasPermission(#productCard.store, 'ProductCard', 'CREATE')")
 	public ResponseEntity<?> createProductCard(
-			@Valid @RequestBody CreateProductCardForm productCard) {
-		return ResponseEntity
-				.ok(this.builder.build(this.productCardService.createProductCard(productCard)));
+			@Valid @RequestParam(value = "body", required = true) CreateProductCardForm productCard,
+			@RequestParam(required = true) MultiValueMap<String, MultipartFile> files) {
+		return ResponseEntity.ok(
+				this.builder.build(this.productCardService.createProductCard(productCard, files)));
 	}
 
 	@PatchMapping(path = "{productCardId}", produces = JSON_API_VALUE)
