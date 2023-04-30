@@ -4,15 +4,19 @@ import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class CreateProductForm {
 	@Size(min = 3, max = 20,
 			message = "product name must be greater than 3 but less than 20 characters")
+    @NotBlank(message = "name cannot be empty")
 	private String name;
 
 	@Min(value = 1, message = "price must be greater than 1")
+    @NotNull(message = "actual price cannot be null")
 	private Double actualPrice;
 
 	@Min(value = 0, message = "discount must be equal or greater than 0")

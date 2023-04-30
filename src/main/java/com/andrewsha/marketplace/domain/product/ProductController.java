@@ -29,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductController {
 	private final ProductService productService;
 
+    // TODO spec
+
 	@Autowired
 	public ProductController(ProductService productService) {
 		this.productService = productService;
